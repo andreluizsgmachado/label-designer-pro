@@ -17,6 +17,8 @@ interface LabelElement {
   label: string;
   x: number;
   y: number;
+  width: number;
+  height: number;
   fontSize: number;
   color: string;
   value: string;
@@ -32,6 +34,7 @@ const Index = () => {
   const [elements, setElements] = useState<LabelElement[]>([]);
   const [selectedElement, setSelectedElement] = useState<string | null>(null);
   const [draggedElement, setDraggedElement] = useState<string | null>(null);
+  const [resizingElement, setResizingElement] = useState<{ id: string; handle: string } | null>(null);
   const [labelConfig, setLabelConfig] = useState<LabelConfig>({
     width: 50,
     height: 30,
@@ -48,6 +51,8 @@ const Index = () => {
       label: type === "text" ? "Nome" : type === "price" ? "Preço" : "Código",
       x: 10,
       y: 10,
+      width: type === "barcode" ? 120 : 100,
+      height: type === "barcode" ? 40 : 30,
       fontSize: type === "barcode" ? 12 : 16,
       color: "#000000",
       value: type === "price" ? "R$ 0,00" : type === "barcode" ? "123456789" : "Texto",
@@ -74,18 +79,74 @@ const Index = () => {
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!draggedElement) return;
+    if (draggedElement) {
+      const canvas = e.currentTarget as HTMLElement;
+      const rect = canvas.getBoundingClientRect();
+      const element = elements.find((el) => el.id === draggedElement);
+      if (!element) return;
+      
+      const x = e.clientX - rect.left - element.width / 2;
+      const y = e.clientY - rect.top - element.height / 2;
+      
+      updateElement(draggedElement, { x: Math.max(0, x), y: Math.max(0, y) });
+    }
     
-    const canvas = e.currentTarget as HTMLElement;
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left - 20;
-    const y = e.clientY - rect.top - 10;
-    
-    updateElement(draggedElement, { x: Math.max(0, x), y: Math.max(0, y) });
+    if (resizingElement) {
+      const canvas = e.currentTarget as HTMLElement;
+      const rect = canvas.getBoundingClientRect();
+      const element = elements.find((el) => el.id === resizingElement.id);
+      if (!element) return;
+      
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      
+      let newWidth = element.width;
+      let newHeight = element.height;
+      let newX = element.x;
+      let newY = element.y;
+      
+      switch (resizingElement.handle) {
+        case "se":
+          newWidth = Math.max(30, mouseX - element.x);
+          newHeight = Math.max(20, mouseY - element.y);
+          break;
+        case "sw":
+          newWidth = Math.max(30, element.x + element.width - mouseX);
+          newHeight = Math.max(20, mouseY - element.y);
+          newX = Math.min(mouseX, element.x + element.width - 30);
+          break;
+        case "ne":
+          newWidth = Math.max(30, mouseX - element.x);
+          newHeight = Math.max(20, element.y + element.height - mouseY);
+          newY = Math.min(mouseY, element.y + element.height - 20);
+          break;
+        case "nw":
+          newWidth = Math.max(30, element.x + element.width - mouseX);
+          newHeight = Math.max(20, element.y + element.height - mouseY);
+          newX = Math.min(mouseX, element.x + element.width - 30);
+          newY = Math.min(mouseY, element.y + element.height - 20);
+          break;
+      }
+      
+      updateElement(resizingElement.id, { 
+        width: newWidth, 
+        height: newHeight,
+        x: newX,
+        y: newY
+      });
+    }
   };
 
   const handleMouseUp = () => {
     setDraggedElement(null);
+    setResizingElement(null);
+  };
+
+  const handleResizeStart = (id: string, handle: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setResizingElement({ id, handle });
+    setSelectedElement(id);
   };
 
   const selected = elements.find((el) => el.id === selectedElement);
@@ -286,25 +347,58 @@ const Index = () => {
               {elements.map((element) => (
                 <div
                   key={element.id}
-                  className={`absolute cursor-move p-2 rounded ${
+                  className={`absolute cursor-move select-none ${
                     selectedElement === element.id
-                      ? "ring-2 ring-element-border"
-                      : "hover:ring-1 hover:ring-element-border"
+                      ? "ring-2 ring-primary"
+                      : "hover:ring-1 hover:ring-border"
                   }`}
                   style={{
                     left: `${element.x}px`,
                     top: `${element.y}px`,
-                    fontSize: `${element.fontSize}px`,
-                    color: element.color,
+                    width: `${element.width}px`,
+                    height: `${element.height}px`,
                   }}
                   onMouseDown={(e) => handleMouseDown(element.id, e)}
                 >
-                  {element.type === "barcode" ? (
-                    <div className="font-mono border border-gray-400 px-2 py-1">
-                      {element.value}
-                    </div>
-                  ) : (
-                    <div className="whitespace-nowrap">{element.value}</div>
+                  <div
+                    className="flex items-center justify-center w-full h-full p-2"
+                    style={{
+                      fontSize: `${element.fontSize}px`,
+                      color: element.color,
+                    }}
+                  >
+                    {element.type === "barcode" ? (
+                      <div className="font-mono border border-gray-400 px-2 py-1">
+                        {element.value}
+                      </div>
+                    ) : (
+                      <div className="whitespace-nowrap overflow-hidden text-ellipsis">{element.value}</div>
+                    )}
+                  </div>
+                  
+                  {selectedElement === element.id && (
+                    <>
+                      <div
+                        className="absolute w-3 h-3 bg-primary border-2 border-white rounded-full cursor-nwse-resize"
+                        style={{ right: -6, bottom: -6 }}
+                        onMouseDown={(e) => handleResizeStart(element.id, "se", e)}
+                      />
+                      <div
+                        className="absolute w-3 h-3 bg-primary border-2 border-white rounded-full cursor-nesw-resize"
+                        style={{ left: -6, bottom: -6 }}
+                        onMouseDown={(e) => handleResizeStart(element.id, "sw", e)}
+                      />
+                      <div
+                        className="absolute w-3 h-3 bg-primary border-2 border-white rounded-full cursor-nesw-resize"
+                        style={{ right: -6, top: -6 }}
+                        onMouseDown={(e) => handleResizeStart(element.id, "ne", e)}
+                      />
+                      <div
+                        className="absolute w-3 h-3 bg-primary border-2 border-white rounded-full cursor-nwse-resize"
+                        style={{ left: -6, top: -6 }}
+                        onMouseDown={(e) => handleResizeStart(element.id, "nw", e)}
+                      />
+                    </>
                   )}
                 </div>
               ))}
@@ -353,10 +447,12 @@ const Index = () => {
                   {elements.map((element) => (
                     <div
                       key={element.id}
-                      className="absolute"
+                      className="absolute flex items-center justify-center"
                       style={{
                         left: `${(element.x / labelWidth) * 100}%`,
                         top: `${(element.y / labelHeight) * 100}%`,
+                        width: `${(element.width / labelWidth) * 100}%`,
+                        height: `${(element.height / labelHeight) * 100}%`,
                         fontSize: `${element.fontSize}px`,
                         color: element.color,
                       }}
@@ -366,7 +462,7 @@ const Index = () => {
                           {element.value}
                         </div>
                       ) : (
-                        <div className="whitespace-nowrap">{element.value}</div>
+                        <div className="whitespace-nowrap overflow-hidden text-ellipsis">{element.value}</div>
                       )}
                     </div>
                   ))}

@@ -109,46 +109,42 @@ All colors MUST be HSL.
 }
 
 @media print {
+
   @page {
     size: A4;
-    margin: 10mm;
+    margin: 0; /* ESSENCIAL */
   }
 
+  /* Esconde todo o app */
   body * {
-    visibility: hidden;
+    visibility: hidden !important;
   }
 
+  /* Mostra só a área das etiquetas */
   .print-container,
   .print-container * {
-    visibility: visible;
+    visibility: visible !important;
   }
 
+  /* Remove margens internas */
   .print-container {
     position: absolute;
-    left: 10mm;
-    top: 10mm;
-    width: calc(100% - 20mm);
-    max-width: 190mm;
+    left: 0;
+    top: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+
     display: flex;
     flex-wrap: wrap;
-    gap: 2mm;
-    padding: 0;
-    margin: 0;
+    gap: 0; /* você controla o gap das etiquetas */
   }
 
   .label-item {
+    box-sizing: border-box;
     break-inside: avoid;
     page-break-inside: avoid;
-  }
-
-  .page-break {
-    page-break-before: always;
-    break-before: page;
-  }
-
-  [role="dialog"] {
-    position: static !important;
-    max-width: 100% !important;
-    max-height: 100% !important;
+    margin: 0;
   }
 }

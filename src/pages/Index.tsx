@@ -334,44 +334,77 @@ const Index = () => {
 
         <main className="flex-1 bg-canvas p-8 overflow-auto">
           <div className="relative">
+            {/* Canto superior esquerdo (interseção das réguas) */}
+            <div className="absolute left-0 top-0 w-[30px] h-[25px] bg-background/80 border-r border-b border-border shadow-sm" />
+            
             {/* Régua Horizontal */}
-            <div className="absolute left-[30px] top-0 h-[30px] bg-muted border-b border-border flex" style={{ width: `${labelWidth}px` }}>
-              {Array.from({ length: Math.ceil(labelConfig.width / 5) }).map((_, i) => {
-                const mm = i * 5;
-                return (
-                  <div key={i} className="relative" style={{ width: '5mm' }}>
-                    <div className="absolute left-0 top-0 w-[1px] h-2 bg-muted-foreground" />
-                    {mm % 10 === 0 && (
-                      <>
-                        <div className="absolute left-0 top-0 w-[1px] h-4 bg-foreground" />
-                        <span className="absolute left-1 top-1 text-[9px] text-muted-foreground">{mm}</span>
-                      </>
-                    )}
-                  </div>
-                );
-              })}
+            <div className="absolute left-[30px] top-0 h-[25px] bg-background/80 border-b border-border shadow-sm" style={{ width: `${labelWidth}px` }}>
+              <div className="relative w-full h-full">
+                {Array.from({ length: Math.ceil(labelConfig.width) + 1 }).map((_, i) => {
+                  const mm = i;
+                  const pixelPos = mmToPx(mm);
+                  const isMajor = mm % 10 === 0;
+                  const isMid = mm % 5 === 0;
+                  
+                  return (
+                    <div
+                      key={i}
+                      className="absolute"
+                      style={{ left: `${pixelPos}px` }}
+                    >
+                      {isMajor ? (
+                        <>
+                          <div className="w-[1px] h-4 bg-foreground/60" />
+                          <span className="absolute top-[14px] -left-2 text-[10px] font-medium text-foreground/80 select-none">
+                            {mm}
+                          </span>
+                        </>
+                      ) : isMid ? (
+                        <div className="w-[1px] h-3 bg-foreground/40" />
+                      ) : (
+                        <div className="w-[1px] h-2 bg-foreground/25" />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
             
             {/* Régua Vertical */}
-            <div className="absolute left-0 top-[30px] w-[30px] bg-muted border-r border-border flex flex-col" style={{ height: `${labelHeight}px` }}>
-              {Array.from({ length: Math.ceil(labelConfig.height / 5) }).map((_, i) => {
-                const mm = i * 5;
-                return (
-                  <div key={i} className="relative" style={{ height: '5mm' }}>
-                    <div className="absolute left-0 top-0 h-[1px] w-2 bg-muted-foreground" />
-                    {mm % 10 === 0 && (
-                      <>
-                        <div className="absolute left-0 top-0 h-[1px] w-4 bg-foreground" />
-                        <span className="absolute left-1 top-0.5 text-[9px] text-muted-foreground rotate-0">{mm}</span>
-                      </>
-                    )}
-                  </div>
-                );
-              })}
+            <div className="absolute left-0 top-[25px] w-[30px] bg-background/80 border-r border-border shadow-sm" style={{ height: `${labelHeight}px` }}>
+              <div className="relative w-full h-full">
+                {Array.from({ length: Math.ceil(labelConfig.height) + 1 }).map((_, i) => {
+                  const mm = i;
+                  const pixelPos = mmToPx(mm);
+                  const isMajor = mm % 10 === 0;
+                  const isMid = mm % 5 === 0;
+                  
+                  return (
+                    <div
+                      key={i}
+                      className="absolute"
+                      style={{ top: `${pixelPos}px` }}
+                    >
+                      {isMajor ? (
+                        <>
+                          <div className="h-[1px] w-4 bg-foreground/60" />
+                          <span className="absolute left-[5px] -top-1.5 text-[10px] font-medium text-foreground/80 select-none">
+                            {mm}
+                          </span>
+                        </>
+                      ) : isMid ? (
+                        <div className="h-[1px] w-3 bg-foreground/40" />
+                      ) : (
+                        <div className="h-[1px] w-2 bg-foreground/25" />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Canvas com margem para as réguas */}
-            <div className="ml-[30px] mt-[30px]">
+            <div className="ml-[30px] mt-[25px]">
               <div
                 className="bg-card border-2 border-canvas-border rounded-lg shadow-lg relative select-none"
                 style={{

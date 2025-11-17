@@ -431,43 +431,46 @@ const Index = () => {
           </div>
 
           <ScrollArea className="h-[65vh]">
-            <div className="grid gap-4 p-4" style={{
-              gridTemplateColumns: `repeat(auto-fill, ${labelConfig.width}mm)`,
-              justifyContent: "center"
-            }}>
-              {Array.from({ length: labelConfig.quantity }).map((_, index) => (
-                <div
-                  key={index}
-                  className="border border-gray-300 relative bg-white print:break-inside-avoid"
-                  style={{
-                    width: `${labelConfig.width}mm`,
-                    height: `${labelConfig.height}mm`,
-                  }}
-                >
-                  {elements.map((element) => (
-                    <div
-                      key={element.id}
-                      className="absolute flex items-center justify-center"
-                      style={{
-                        left: `${(element.x / labelWidth) * 100}%`,
-                        top: `${(element.y / labelHeight) * 100}%`,
-                        width: `${(element.width / labelWidth) * 100}%`,
-                        height: `${(element.height / labelHeight) * 100}%`,
-                        fontSize: `${element.fontSize}px`,
-                        color: element.color,
-                      }}
-                    >
-                      {element.type === "barcode" ? (
-                        <div className="font-mono border border-gray-400 px-1 text-xs">
-                          {element.value}
-                        </div>
-                      ) : (
-                        <div className="whitespace-nowrap overflow-hidden text-ellipsis">{element.value}</div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ))}
+            <div className="print-container">
+              {Array.from({ length: labelConfig.quantity }).map((_, index) => {
+                const labelsPerRow = Math.floor(210 / labelConfig.width);
+                const labelsPerPage = labelsPerRow * Math.floor(297 / labelConfig.height);
+                const needsPageBreak = index > 0 && index % labelsPerPage === 0;
+                
+                return (
+                  <div
+                    key={index}
+                    className={`label-item border border-gray-300 relative bg-white ${needsPageBreak ? 'page-break' : ''}`}
+                    style={{
+                      width: `${labelConfig.width}mm`,
+                      height: `${labelConfig.height}mm`,
+                    }}
+                  >
+                    {elements.map((element) => (
+                      <div
+                        key={element.id}
+                        className="absolute flex items-center justify-center"
+                        style={{
+                          left: `${(element.x / labelWidth) * 100}%`,
+                          top: `${(element.y / labelHeight) * 100}%`,
+                          width: `${(element.width / labelWidth) * 100}%`,
+                          height: `${(element.height / labelHeight) * 100}%`,
+                          fontSize: `${element.fontSize}px`,
+                          color: element.color,
+                        }}
+                      >
+                        {element.type === "barcode" ? (
+                          <div className="font-mono border border-gray-400 px-1 text-xs">
+                            {element.value}
+                          </div>
+                        ) : (
+                          <div className="whitespace-nowrap overflow-hidden text-ellipsis">{element.value}</div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                );
+              })}
             </div>
           </ScrollArea>
         </DialogContent>

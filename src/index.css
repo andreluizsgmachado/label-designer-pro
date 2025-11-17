@@ -118,9 +118,31 @@ All colors MUST be HSL.
     visibility: hidden;
   }
 
-  .print\:break-inside-avoid,
-  .print\:break-inside-avoid * {
+  .print-container,
+  .print-container * {
     visibility: visible;
+  }
+
+  .print-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 190mm;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2mm;
+    padding: 0;
+  }
+
+  .label-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .page-break {
+    page-break-before: always;
+    break-before: page;
   }
 
   [role="dialog"] {

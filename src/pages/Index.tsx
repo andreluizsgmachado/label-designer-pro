@@ -333,17 +333,55 @@ const Index = () => {
         </aside>
 
         <main className="flex-1 bg-canvas p-8 overflow-auto">
-          <div className="flex items-center justify-center min-h-full">
-            <div
-              className="bg-card border-2 border-canvas-border rounded-lg shadow-lg relative select-none"
-              style={{
-                width: `${labelWidth}px`,
-                height: `${labelHeight}px`,
-              }}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseUp}
-            >
+          <div className="relative">
+            {/* Régua Horizontal */}
+            <div className="absolute left-[30px] top-0 h-[30px] bg-muted border-b border-border flex" style={{ width: `${labelWidth}px` }}>
+              {Array.from({ length: Math.ceil(labelConfig.width / 5) }).map((_, i) => {
+                const mm = i * 5;
+                return (
+                  <div key={i} className="relative" style={{ width: '5mm' }}>
+                    <div className="absolute left-0 top-0 w-[1px] h-2 bg-muted-foreground" />
+                    {mm % 10 === 0 && (
+                      <>
+                        <div className="absolute left-0 top-0 w-[1px] h-4 bg-foreground" />
+                        <span className="absolute left-1 top-1 text-[9px] text-muted-foreground">{mm}</span>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            
+            {/* Régua Vertical */}
+            <div className="absolute left-0 top-[30px] w-[30px] bg-muted border-r border-border flex flex-col" style={{ height: `${labelHeight}px` }}>
+              {Array.from({ length: Math.ceil(labelConfig.height / 5) }).map((_, i) => {
+                const mm = i * 5;
+                return (
+                  <div key={i} className="relative" style={{ height: '5mm' }}>
+                    <div className="absolute left-0 top-0 h-[1px] w-2 bg-muted-foreground" />
+                    {mm % 10 === 0 && (
+                      <>
+                        <div className="absolute left-0 top-0 h-[1px] w-4 bg-foreground" />
+                        <span className="absolute left-1 top-0.5 text-[9px] text-muted-foreground rotate-0">{mm}</span>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Canvas com margem para as réguas */}
+            <div className="ml-[30px] mt-[30px]">
+              <div
+                className="bg-card border-2 border-canvas-border rounded-lg shadow-lg relative select-none"
+                style={{
+                  width: `${labelWidth}px`,
+                  height: `${labelHeight}px`,
+                }}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+              >
               {elements.map((element) => (
                 <div
                   key={element.id}
@@ -409,6 +447,7 @@ const Index = () => {
                   </p>
                 </div>
               )}
+            </div>
             </div>
           </div>
         </main>

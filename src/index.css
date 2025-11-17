@@ -125,14 +125,15 @@ All colors MUST be HSL.
 
   .print-container {
     position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
+    left: 10mm;
+    top: 10mm;
+    width: calc(100% - 20mm);
     max-width: 190mm;
     display: flex;
     flex-wrap: wrap;
     gap: 2mm;
     padding: 0;
+    margin: 0;
   }
 
   .label-item {

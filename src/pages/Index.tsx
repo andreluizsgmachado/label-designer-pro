@@ -357,13 +357,13 @@ const Index = () => {
           </ScrollArea>
         </aside>
 
-        <main className="flex-1 bg-canvas p-8 overflow-auto">
-          <div className="relative">
+        <main className="flex-1 bg-canvas overflow-auto">
+          <div className="relative inline-block">
             {/* Canto superior esquerdo (interseção das réguas) */}
-            <div className="absolute left-0 top-0 w-[30px] h-[25px] bg-background/80 border-r border-b border-border shadow-sm" />
+            <div className="absolute left-0 top-0 w-[30px] h-[25px] bg-background/80 border-r border-b border-border shadow-sm z-10" />
             
             {/* Régua Horizontal */}
-            <div className="absolute left-[30px] top-0 h-[25px] bg-background/80 border-b border-border shadow-sm" style={{ width: `${labelWidth}px` }}>
+            <div className="absolute left-[30px] top-0 h-[25px] bg-background/80 border-b border-border shadow-sm z-10" style={{ width: `${labelWidth}px` }}>
               <div className="relative w-full h-full">
                 {Array.from({ length: Math.ceil(labelConfig.width) + 1 }).map((_, i) => {
                   const mm = i;
@@ -396,7 +396,7 @@ const Index = () => {
             </div>
             
             {/* Régua Vertical */}
-            <div className="absolute left-0 top-[25px] w-[30px] bg-background/80 border-r border-border shadow-sm" style={{ height: `${labelHeight}px` }}>
+            <div className="absolute left-0 top-[25px] w-[30px] bg-background/80 border-r border-border shadow-sm z-10" style={{ height: `${labelHeight}px` }}>
               <div className="relative w-full h-full">
                 {Array.from({ length: Math.ceil(labelConfig.height) + 1 }).map((_, i) => {
                   const mm = i;

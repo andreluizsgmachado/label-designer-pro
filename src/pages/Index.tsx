@@ -160,14 +160,21 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="border-b border-border bg-card px-6 py-4">
-        <div className="flex items-center justify-between">
+      <header className="border-b border-border bg-gradient-to-r from-card to-card shadow-md">
+        <div className="px-6 py-5 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <FileText className="h-6 w-6 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground">Editor de Etiquetas</h1>
+            <div className="bg-gradient-to-br from-primary to-secondary p-2 rounded-lg shadow-lg">
+              <FileText className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Editor de Etiquetas
+              </h1>
+              <p className="text-xs text-muted-foreground">Design profissional e moderno</p>
+            </div>
           </div>
           
-          <Button onClick={() => setShowPreview(true)} className="gap-2">
+          <Button onClick={() => setShowPreview(true)} className="gap-2 shadow-lg">
             <Eye className="h-4 w-4" />
             Visualizar e Imprimir
           </Button>
@@ -175,25 +182,37 @@ const Index = () => {
       </header>
 
       <div className="flex-1 flex overflow-hidden">
-        <aside className="w-80 border-r border-border bg-panel flex flex-col">
+        <aside className="w-80 border-r border-border bg-panel flex flex-col shadow-xl">
           <ScrollArea className="flex-1">
             <div className="p-6 space-y-6">
               <div>
                 <h2 className="text-sm font-semibold mb-3 flex items-center gap-2 text-foreground">
-                  <Settings className="h-4 w-4" />
+                  <span className="w-1 h-4 bg-gradient-to-b from-primary to-secondary rounded-full"></span>
                   Adicionar Elementos
                 </h2>
                 <div className="grid grid-cols-1 gap-2">
-                  <Button variant="outline" className="justify-start gap-2" onClick={() => addElement("text")}>
-                    <Type className="h-4 w-4" />
+                  <Button 
+                    variant="outline" 
+                    className="justify-start gap-2 hover:border-primary hover:bg-primary/5 transition-all" 
+                    onClick={() => addElement("text")}
+                  >
+                    <Type className="h-4 w-4 text-primary" />
                     Texto / Nome
                   </Button>
-                  <Button variant="outline" className="justify-start gap-2" onClick={() => addElement("price")}>
-                    <DollarSign className="h-4 w-4" />
+                  <Button 
+                    variant="outline" 
+                    className="justify-start gap-2 hover:border-secondary hover:bg-secondary/5 transition-all" 
+                    onClick={() => addElement("price")}
+                  >
+                    <DollarSign className="h-4 w-4 text-secondary" />
                     Preço
                   </Button>
-                  <Button variant="outline" className="justify-start gap-2" onClick={() => addElement("barcode")}>
-                    <BarcodeIcon className="h-4 w-4" />
+                  <Button 
+                    variant="outline" 
+                    className="justify-start gap-2 hover:border-primary hover:bg-primary/5 transition-all" 
+                    onClick={() => addElement("barcode")}
+                  >
+                    <BarcodeIcon className="h-4 w-4 text-primary" />
                     Código de Barras
                   </Button>
                 </div>
@@ -202,31 +221,32 @@ const Index = () => {
               <Separator />
 
               <div>
-                <h2 className="text-sm font-semibold mb-3 text-foreground">
+                <h2 className="text-sm font-semibold mb-3 text-foreground flex items-center gap-2">
+                  <span className="w-1 h-4 bg-gradient-to-b from-primary to-secondary rounded-full"></span>
                   Elementos ({elements.length})
                 </h2>
                 <div className="space-y-2">
                   {elements.map((element) => (
                     <Card
                       key={element.id}
-                      className={`p-3 cursor-pointer transition-colors ${
+                      className={`p-3 cursor-pointer transition-all duration-200 ${
                         selectedElement === element.id
-                          ? "bg-accent text-accent-foreground border-primary"
-                          : "hover:bg-muted"
+                          ? "bg-gradient-to-r from-primary/10 to-secondary/10 border-primary shadow-md scale-105"
+                          : "hover:bg-muted hover:shadow-sm hover:scale-102"
                       }`}
                       onClick={() => setSelectedElement(element.id)}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          {element.type === "text" && <Type className="h-4 w-4" />}
-                          {element.type === "price" && <DollarSign className="h-4 w-4" />}
-                          {element.type === "barcode" && <BarcodeIcon className="h-4 w-4" />}
+                          {element.type === "text" && <Type className="h-4 w-4 text-primary" />}
+                          {element.type === "price" && <DollarSign className="h-4 w-4 text-secondary" />}
+                          {element.type === "barcode" && <BarcodeIcon className="h-4 w-4 text-primary" />}
                           <span className="text-sm font-medium">{element.label}</span>
                         </div>
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="h-8 w-8 p-0"
+                          className="h-8 w-8 p-0 hover:bg-destructive/10 hover:text-destructive"
                           onClick={(e) => {
                             e.stopPropagation();
                             deleteElement(element.id);
@@ -249,42 +269,47 @@ const Index = () => {
                 <>
                   <Separator />
                   <div>
-                    <h2 className="text-sm font-semibold mb-3 text-foreground">
+                    <h2 className="text-sm font-semibold mb-3 text-foreground flex items-center gap-2">
+                      <span className="w-1 h-4 bg-gradient-to-b from-primary to-secondary rounded-full"></span>
                       Propriedades
                     </h2>
                     <div className="space-y-3">
                       <div>
-                        <Label htmlFor="label">Nome do Campo</Label>
+                        <Label htmlFor="label" className="text-xs font-medium">Nome do Campo</Label>
                         <Input
                           id="label"
                           value={selected.label}
                           onChange={(e) => updateElement(selected.id, { label: e.target.value })}
+                          className="mt-1.5 focus:border-primary"
                         />
                       </div>
                       <div>
-                        <Label htmlFor="value">Valor</Label>
+                        <Label htmlFor="value" className="text-xs font-medium">Valor</Label>
                         <Input
                           id="value"
                           value={selected.value}
                           onChange={(e) => updateElement(selected.id, { value: e.target.value })}
+                          className="mt-1.5 focus:border-primary"
                         />
                       </div>
                       <div>
-                        <Label htmlFor="fontSize">Tamanho da Fonte</Label>
+                        <Label htmlFor="fontSize" className="text-xs font-medium">Tamanho da Fonte</Label>
                         <Input
                           id="fontSize"
                           type="number"
                           value={selected.fontSize}
                           onChange={(e) => updateElement(selected.id, { fontSize: parseInt(e.target.value) })}
+                          className="mt-1.5 focus:border-primary"
                         />
                       </div>
                       <div>
-                        <Label htmlFor="color">Cor</Label>
+                        <Label htmlFor="color" className="text-xs font-medium">Cor</Label>
                         <Input
                           id="color"
                           type="color"
                           value={selected.color}
                           onChange={(e) => updateElement(selected.id, { color: e.target.value })}
+                          className="mt-1.5 h-10 focus:border-primary"
                         />
                       </div>
                     </div>
@@ -406,7 +431,7 @@ const Index = () => {
             {/* Canvas com margem para as réguas */}
             <div className="ml-[30px] mt-[25px]">
               <div
-                className="bg-card border-2 border-canvas-border rounded-lg shadow-lg relative select-none"
+                className="bg-card border-2 border-canvas-border rounded-xl shadow-2xl relative select-none transition-all duration-300 hover:shadow-primary/10"
                 style={{
                   width: `${labelWidth}px`,
                   height: `${labelHeight}px`,
@@ -418,10 +443,10 @@ const Index = () => {
               {elements.map((element) => (
                 <div
                   key={element.id}
-                  className={`absolute cursor-move select-none ${
+                  className={`absolute cursor-move select-none transition-all duration-200 ${
                     selectedElement === element.id
-                      ? "ring-2 ring-primary"
-                      : "hover:ring-1 hover:ring-border"
+                      ? "ring-2 ring-primary shadow-lg shadow-primary/20 scale-105"
+                      : "hover:ring-2 hover:ring-primary/50"
                   }`}
                   style={{
                     left: `${element.x}px`,
@@ -432,41 +457,41 @@ const Index = () => {
                   onMouseDown={(e) => handleMouseDown(element.id, e)}
                 >
                   <div
-                    className="flex items-center justify-center w-full h-full p-2"
+                    className="flex items-center justify-center w-full h-full p-2 rounded"
                     style={{
                       fontSize: `${element.fontSize}px`,
                       color: element.color,
                     }}
                   >
                     {element.type === "barcode" ? (
-                      <div className="font-mono border border-gray-400 px-2 py-1">
+                      <div className="font-mono border-2 border-gray-400 px-2 py-1 rounded">
                         {element.value}
                       </div>
                     ) : (
-                      <div className="whitespace-nowrap overflow-hidden text-ellipsis">{element.value}</div>
+                      <div className="whitespace-nowrap overflow-hidden text-ellipsis font-semibold">{element.value}</div>
                     )}
                   </div>
                   
                   {selectedElement === element.id && (
                     <>
                       <div
-                        className="absolute w-3 h-3 bg-primary border-2 border-white rounded-full cursor-nwse-resize"
-                        style={{ right: -6, bottom: -6 }}
+                        className="absolute w-4 h-4 bg-primary border-2 border-white rounded-full cursor-nwse-resize shadow-lg transition-transform hover:scale-125"
+                        style={{ right: -8, bottom: -8 }}
                         onMouseDown={(e) => handleResizeStart(element.id, "se", e)}
                       />
                       <div
-                        className="absolute w-3 h-3 bg-primary border-2 border-white rounded-full cursor-nesw-resize"
-                        style={{ left: -6, bottom: -6 }}
+                        className="absolute w-4 h-4 bg-secondary border-2 border-white rounded-full cursor-nesw-resize shadow-lg transition-transform hover:scale-125"
+                        style={{ left: -8, bottom: -8 }}
                         onMouseDown={(e) => handleResizeStart(element.id, "sw", e)}
                       />
                       <div
-                        className="absolute w-3 h-3 bg-primary border-2 border-white rounded-full cursor-nesw-resize"
-                        style={{ right: -6, top: -6 }}
+                        className="absolute w-4 h-4 bg-secondary border-2 border-white rounded-full cursor-nesw-resize shadow-lg transition-transform hover:scale-125"
+                        style={{ right: -8, top: -8 }}
                         onMouseDown={(e) => handleResizeStart(element.id, "ne", e)}
                       />
                       <div
-                        className="absolute w-3 h-3 bg-primary border-2 border-white rounded-full cursor-nwse-resize"
-                        style={{ left: -6, top: -6 }}
+                        className="absolute w-4 h-4 bg-primary border-2 border-white rounded-full cursor-nwse-resize shadow-lg transition-transform hover:scale-125"
+                        style={{ left: -8, top: -8 }}
                         onMouseDown={(e) => handleResizeStart(element.id, "nw", e)}
                       />
                     </>
@@ -475,7 +500,7 @@ const Index = () => {
               ))}
               {elements.length === 0 && (
                 <div className="absolute inset-0 flex items-center justify-center text-muted-foreground pointer-events-none">
-                  <p className="text-center">
+                  <p className="text-center font-medium">
                     Adicione elementos usando o painel lateral
                   </p>
                 </div>

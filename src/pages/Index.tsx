@@ -175,7 +175,7 @@ const Index = () => {
             </div>
           </div>
           
-          <Button onClick={() => setShowPreview(true)} className="gap-2 shadow-lg">
+          <Button onClick={handlePrint} className="gap-2 shadow-lg">
             <Eye className="h-4 w-4" />
             Visualizar e Imprimir
           </Button>
@@ -515,6 +515,54 @@ const Index = () => {
             </div>
           </div>
         </main>
+      </div>
+
+      {/* Área de impressão (escondida na tela, visível na impressão) */}
+      <div className="print-container hidden">
+        {Array.from({ length: labelConfig.quantity }).map((_, index) => {
+          const labelsPerRow = Math.floor(210 / labelConfig.width);
+          const labelsPerPage = labelsPerRow * Math.floor(297 / labelConfig.height);
+          const needsPageBreak = index > 0 && index % labelsPerPage === 0;
+          
+          return (
+            <div
+              key={index}
+              className={`label-item border border-gray-300 relative bg-white ${needsPageBreak ? 'page-break' : ''}`}
+              style={{
+                width: `${labelConfig.width}mm`,
+                height: `${labelConfig.height}mm`,
+              }}
+            >
+              {elements.map((element) => (
+                <div
+                  key={element.id}
+                  className="absolute flex items-center justify-center"
+                  style={{
+                    left: `${(element.x / labelWidth) * 100}%`,
+                    top: `${(element.y / labelHeight) * 100}%`,
+                    width: `${(element.width / labelWidth) * 100}%`,
+                    height: `${(element.height / labelHeight) * 100}%`,
+                    fontSize: `${element.fontSize}px`,
+                    color: element.color,
+                  }}
+                >
+                  {element.type === "barcode" ? (
+                    <Barcode 
+                      value={element.value} 
+                      width={1.5}
+                      height={element.height - 20}
+                      fontSize={10}
+                      margin={0}
+                      displayValue={true}
+                    />
+                  ) : (
+                    <div className="whitespace-nowrap overflow-hidden text-ellipsis">{element.value}</div>
+                  )}
+                </div>
+              ))}
+            </div>
+          );
+        })}
       </div>
 
       <Dialog open={showPreview} onOpenChange={setShowPreview}>

@@ -128,30 +128,32 @@ All colors MUST be HSL.
   /* Esconde todo o app */
   body * {
     visibility: hidden !important;
+    display: none !important;
   }
 
   /* Mostra só a área das etiquetas */
   .print-container,
   .print-container * {
     visibility: visible !important;
+    display: block !important;
   }
 
   /* Remove margens internas e ocupa a página inteira em A4 */
   .print-container {
-    position: absolute;
-    left: 0;
-    top: 0;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
     width: 210mm !important;
     min-height: 297mm !important;
 
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 0; /* controle de espaçamento entre etiquetas via CSS/JS */
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-content: flex-start !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 0 !important; /* controle de espaçamento entre etiquetas via CSS/JS */
   }
 
   .label-item {
@@ -159,6 +161,7 @@ All colors MUST be HSL.
     break-inside: avoid;
     page-break-inside: avoid;
     margin: 0;
+    display: block !important;
   }
 
   .page-break {

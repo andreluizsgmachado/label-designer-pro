@@ -182,9 +182,8 @@ const Index = () => {
       </header>
 
       <div className="flex-1 flex overflow-hidden">
-        <aside className="w-80 border-r border-border bg-panel flex flex-col shadow-xl">
-          <ScrollArea className="flex-1">
-            <div className="p-6 space-y-6">
+        <aside className="w-80 border-r border-border bg-panel overflow-y-auto shadow-xl">
+          <div className="p-6 space-y-6">
               <div>
                 <h2 className="text-sm font-semibold mb-3 flex items-center gap-2 text-foreground">
                   <span className="w-1 h-4 bg-gradient-to-b from-primary to-secondary rounded-full"></span>
@@ -354,7 +353,6 @@ const Index = () => {
                 </div>
               </div>
             </div>
-          </ScrollArea>
         </aside>
 
         <main className="flex-1 bg-canvas overflow-auto">

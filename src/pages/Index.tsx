@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Type, DollarSign, Barcode as BarcodeIcon, Trash2, Settings, FileText, Eye, Download } from "lucide-react";
 import { toast } from "sonner";
+import Barcode from "react-barcode";
 
 type ElementType = "text" | "barcode" | "price";
 
@@ -462,8 +463,15 @@ const Index = () => {
                     }}
                   >
                     {element.type === "barcode" ? (
-                      <div className="font-mono border-2 border-gray-400 px-2 py-1 rounded">
-                        {element.value}
+                      <div className="flex items-center justify-center w-full h-full">
+                        <Barcode 
+                          value={element.value} 
+                          width={1.5}
+                          height={element.height - 20}
+                          fontSize={10}
+                          margin={0}
+                          displayValue={true}
+                        />
                       </div>
                     ) : (
                       <div className="whitespace-nowrap overflow-hidden text-ellipsis font-semibold">{element.value}</div>
@@ -555,9 +563,14 @@ const Index = () => {
                         }}
                       >
                         {element.type === "barcode" ? (
-                          <div className="font-mono border border-gray-400 px-1 text-xs">
-                            {element.value}
-                          </div>
+                          <Barcode 
+                            value={element.value} 
+                            width={1.5}
+                            height={element.height - 20}
+                            fontSize={10}
+                            margin={0}
+                            displayValue={true}
+                          />
                         ) : (
                           <div className="whitespace-nowrap overflow-hidden text-ellipsis">{element.value}</div>
                         )}

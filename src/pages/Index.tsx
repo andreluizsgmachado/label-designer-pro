@@ -154,7 +154,7 @@ const Index = () => {
   const labelHeight = mmToPx(labelConfig.height);
 
   const handlePrint = () => {
-    toast.success("Use Ctrl+P para imprimir ou salvar como PDF!");
+    toast.success("Na janela de impressão, defina margens como 'Nenhuma' e escala em 100% para manter o tamanho real das etiquetas.");
     window.print();
   };
 

@@ -518,7 +518,7 @@ const Index = () => {
       </div>
 
       {/* Área de impressão (escondida na tela, visível na impressão) */}
-      <div className="print-container hidden">
+      <div className="print-container">
         {Array.from({ length: labelConfig.quantity }).map((_, index) => {
           const labelsPerRow = Math.floor(210 / labelConfig.width);
           const labelsPerPage = labelsPerRow * Math.floor(297 / labelConfig.height);

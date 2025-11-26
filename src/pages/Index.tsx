@@ -534,41 +534,33 @@ const Index = () => {
                 height: `${labelConfig.height}mm`,
               }}
             >
-              {elements.map((element) => {
-                const elementXMm = pxToMm(element.x);
-                const elementYMm = pxToMm(element.y);
-                const elementWidthMm = pxToMm(element.width);
-                const elementHeightMm = pxToMm(element.height);
-                const fontSizeMm = pxToMm(element.fontSize);
-                
-                return (
-                  <div
-                    key={element.id}
-                    className="absolute flex items-center justify-center"
-                    style={{
-                      left: `${elementXMm}mm`,
-                      top: `${elementYMm}mm`,
-                      width: `${elementWidthMm}mm`,
-                      height: `${elementHeightMm}mm`,
-                      fontSize: `${fontSizeMm}mm`,
-                      color: element.color,
-                    }}
-                  >
-                    {element.type === "barcode" ? (
-                      <Barcode 
-                        value={element.value} 
-                        width={1.5}
-                        height={element.height - 20}
-                        fontSize={10}
-                        margin={0}
-                        displayValue={true}
-                      />
-                    ) : (
-                      <div className="whitespace-nowrap overflow-hidden text-ellipsis">{element.value}</div>
-                    )}
-                  </div>
-                );
-              })}
+              {elements.map((element) => (
+                <div
+                  key={element.id}
+                  className="absolute flex items-center justify-center"
+                  style={{
+                    left: `${(element.x / labelWidth) * 100}%`,
+                    top: `${(element.y / labelHeight) * 100}%`,
+                    width: `${(element.width / labelWidth) * 100}%`,
+                    height: `${(element.height / labelHeight) * 100}%`,
+                    fontSize: `${element.fontSize}px`,
+                    color: element.color,
+                  }}
+                >
+                  {element.type === "barcode" ? (
+                    <Barcode 
+                      value={element.value} 
+                      width={1.5}
+                      height={element.height - 20}
+                      fontSize={10}
+                      margin={0}
+                      displayValue={true}
+                    />
+                  ) : (
+                    <div className="whitespace-nowrap overflow-hidden text-ellipsis">{element.value}</div>
+                  )}
+                </div>
+              ))}
             </div>
           );
         })}
@@ -591,7 +583,7 @@ const Index = () => {
           </div>
 
           <ScrollArea className="h-[65vh]">
-            <div className="print-container">
+            <div className="preview-print-container">
               {Array.from({ length: labelConfig.quantity }).map((_, index) => {
                 const labelsPerRow = Math.floor(210 / labelConfig.width);
                 const labelsPerPage = labelsPerRow * Math.floor(297 / labelConfig.height);
@@ -600,7 +592,7 @@ const Index = () => {
                 return (
                   <div
                     key={index}
-                    className={`label-item border border-gray-300 relative bg-white ${needsPageBreak ? 'page-break' : ''}`}
+                    className={`label-item border border-gray-300 relative bg-white ${needsPageBreak ? "page-break" : ""}`}
                     style={{
                       width: `${labelConfig.width}mm`,
                       height: `${labelConfig.height}mm`,

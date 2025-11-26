@@ -133,10 +133,9 @@ All colors MUST be HSL.
     margin: 0; /* ESSENCIAL */
   }
 
-  /* Esconde todo o app */
+  /* Esconde todo o app (apenas torna invisível, mas mantém o layout para o container de impressão) */
   body * {
     visibility: hidden !important;
-    display: none !important;
   }
 
   /* Mostra só a área das etiquetas */

@@ -118,6 +118,14 @@ All colors MUST be HSL.
   }
 }
 
+/* Esconde o print-container na tela normal */
+.print-container {
+  position: absolute;
+  left: -9999px;
+  top: -9999px;
+  visibility: hidden;
+}
+
 @media print {
 
   @page {

@@ -44,6 +44,7 @@ const Index = () => {
   const [showPreview, setShowPreview] = useState(false);
 
   const mmToPx = (mm: number) => (mm * 96) / 25.4;
+  const pxToMm = (px: number) => (px * 25.4) / 96;
 
   const addElement = (type: ElementType) => {
     const newElement: LabelElement = {
@@ -533,33 +534,41 @@ const Index = () => {
                 height: `${labelConfig.height}mm`,
               }}
             >
-              {elements.map((element) => (
-                <div
-                  key={element.id}
-                  className="absolute flex items-center justify-center"
-                  style={{
-                    left: `${(element.x / labelWidth) * 100}%`,
-                    top: `${(element.y / labelHeight) * 100}%`,
-                    width: `${(element.width / labelWidth) * 100}%`,
-                    height: `${(element.height / labelHeight) * 100}%`,
-                    fontSize: `${element.fontSize}px`,
-                    color: element.color,
-                  }}
-                >
-                  {element.type === "barcode" ? (
-                    <Barcode 
-                      value={element.value} 
-                      width={1.5}
-                      height={element.height - 20}
-                      fontSize={10}
-                      margin={0}
-                      displayValue={true}
-                    />
-                  ) : (
-                    <div className="whitespace-nowrap overflow-hidden text-ellipsis">{element.value}</div>
-                  )}
-                </div>
-              ))}
+              {elements.map((element) => {
+                const elementXMm = pxToMm(element.x);
+                const elementYMm = pxToMm(element.y);
+                const elementWidthMm = pxToMm(element.width);
+                const elementHeightMm = pxToMm(element.height);
+                const fontSizeMm = pxToMm(element.fontSize);
+                
+                return (
+                  <div
+                    key={element.id}
+                    className="absolute flex items-center justify-center"
+                    style={{
+                      left: `${elementXMm}mm`,
+                      top: `${elementYMm}mm`,
+                      width: `${elementWidthMm}mm`,
+                      height: `${elementHeightMm}mm`,
+                      fontSize: `${fontSizeMm}mm`,
+                      color: element.color,
+                    }}
+                  >
+                    {element.type === "barcode" ? (
+                      <Barcode 
+                        value={element.value} 
+                        width={1.5}
+                        height={element.height - 20}
+                        fontSize={10}
+                        margin={0}
+                        displayValue={true}
+                      />
+                    ) : (
+                      <div className="whitespace-nowrap overflow-hidden text-ellipsis">{element.value}</div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           );
         })}

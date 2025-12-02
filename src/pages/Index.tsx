@@ -457,8 +457,9 @@ const Index = () => {
                   onMouseDown={(e) => handleMouseDown(element.id, e)}
                 >
                   <div
-                    className="flex items-center justify-center w-full h-full p-2 rounded"
+                    className="flex items-center justify-center w-full h-full rounded"
                     style={{
+                      padding: `${mmToPx(2)}px`,
                       fontSize: `${element.fontSize}px`,
                       color: element.color,
                     }}
@@ -537,28 +538,36 @@ const Index = () => {
               {elements.map((element) => (
                 <div
                   key={element.id}
-                  className="absolute flex items-center justify-center"
+                  className="absolute"
                   style={{
-                    left: `${(element.x / labelWidth) * 100}%`,
-                    top: `${(element.y / labelHeight) * 100}%`,
-                    width: `${(element.width / labelWidth) * 100}%`,
-                    height: `${(element.height / labelHeight) * 100}%`,
-                    fontSize: `${element.fontSize}px`,
-                    color: element.color,
+                    left: `${pxToMm(element.x)}mm`,
+                    top: `${pxToMm(element.y)}mm`,
+                    width: `${pxToMm(element.width)}mm`,
+                    height: `${pxToMm(element.height)}mm`,
                   }}
                 >
-                  {element.type === "barcode" ? (
-                    <Barcode 
-                      value={element.value} 
-                      width={1.5}
-                      height={element.height - 20}
-                      fontSize={10}
-                      margin={0}
-                      displayValue={true}
-                    />
-                  ) : (
-                    <div className="whitespace-nowrap overflow-hidden text-ellipsis">{element.value}</div>
-                  )}
+                  <div
+                    className="flex items-center justify-center w-full h-full p-[2mm]"
+                    style={{
+                      fontSize: `${pxToMm(element.fontSize)}mm`,
+                      color: element.color,
+                    }}
+                  >
+                    {element.type === "barcode" ? (
+                      <div className="flex items-center justify-center w-full h-full">
+                        <Barcode 
+                          value={element.value} 
+                          width={1.5}
+                          height={pxToMm(element.height - 20) * 3.78}
+                          fontSize={10}
+                          margin={0}
+                          displayValue={true}
+                        />
+                      </div>
+                    ) : (
+                      <div className="whitespace-nowrap overflow-hidden text-ellipsis font-semibold">{element.value}</div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
@@ -601,28 +610,36 @@ const Index = () => {
                     {elements.map((element) => (
                       <div
                         key={element.id}
-                        className="absolute flex items-center justify-center"
+                        className="absolute"
                         style={{
-                          left: `${(element.x / labelWidth) * 100}%`,
-                          top: `${(element.y / labelHeight) * 100}%`,
-                          width: `${(element.width / labelWidth) * 100}%`,
-                          height: `${(element.height / labelHeight) * 100}%`,
-                          fontSize: `${element.fontSize}px`,
-                          color: element.color,
+                          left: `${pxToMm(element.x)}mm`,
+                          top: `${pxToMm(element.y)}mm`,
+                          width: `${pxToMm(element.width)}mm`,
+                          height: `${pxToMm(element.height)}mm`,
                         }}
                       >
-                        {element.type === "barcode" ? (
-                          <Barcode 
-                            value={element.value} 
-                            width={1.5}
-                            height={element.height - 20}
-                            fontSize={10}
-                            margin={0}
-                            displayValue={true}
-                          />
-                        ) : (
-                          <div className="whitespace-nowrap overflow-hidden text-ellipsis">{element.value}</div>
-                        )}
+                        <div
+                          className="flex items-center justify-center w-full h-full p-[2mm]"
+                          style={{
+                            fontSize: `${pxToMm(element.fontSize)}mm`,
+                            color: element.color,
+                          }}
+                        >
+                          {element.type === "barcode" ? (
+                            <div className="flex items-center justify-center w-full h-full">
+                              <Barcode 
+                                value={element.value} 
+                                width={1.5}
+                                height={pxToMm(element.height - 20) * 3.78}
+                                fontSize={10}
+                                margin={0}
+                                displayValue={true}
+                              />
+                            </div>
+                          ) : (
+                            <div className="whitespace-nowrap overflow-hidden text-ellipsis font-semibold">{element.value}</div>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>

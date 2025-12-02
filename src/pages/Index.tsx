@@ -466,7 +466,6 @@ const Index = () => {
                   <div
                     className="flex items-center justify-center w-full h-full rounded"
                     style={{
-                      padding: `${mmToPx(2)}px`,
                       fontSize: `${element.fontSize}px`,
                       color: element.color,
                     }}
@@ -554,7 +553,7 @@ const Index = () => {
                   }}
                 >
                   <div
-                    className="flex items-center justify-center w-full h-full p-[2mm]"
+                    className="flex items-center justify-center w-full h-full"
                     style={{
                       fontSize: `${pxToMm(element.fontSize)}mm`,
                       color: element.color,
@@ -625,13 +624,13 @@ const Index = () => {
                           height: `${pxToMm(element.height)}mm`,
                         }}
                       >
-                        <div
-                          className="flex items-center justify-center w-full h-full p-[2mm]"
-                          style={{
-                            fontSize: `${pxToMm(element.fontSize)}mm`,
-                            color: element.color,
-                          }}
-                        >
+                          <div
+                            className="flex items-center justify-center w-full h-full"
+                            style={{
+                              fontSize: `${pxToMm(element.fontSize)}mm`,
+                              color: element.color,
+                            }}
+                          >
                           {element.type === "barcode" ? (
                             <div className="flex items-center justify-center w-full h-full">
                               <Barcode 

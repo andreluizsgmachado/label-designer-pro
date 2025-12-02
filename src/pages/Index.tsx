@@ -465,7 +465,7 @@ const Index = () => {
                 >
                   {element.type === "barcode" ? (
                     <div 
-                      className="flex items-center justify-center w-full h-full"
+                      className="flex items-center justify-start w-full h-full"
                       style={{ color: element.color }}
                     >
                       <Barcode 
@@ -557,7 +557,7 @@ const Index = () => {
                 >
                   {element.type === "barcode" ? (
                     <div 
-                      className="flex items-center justify-center w-full h-full"
+                      className="flex items-center justify-start w-full h-full"
                       style={{ color: element.color }}
                     >
                       <Barcode 
@@ -632,7 +632,7 @@ const Index = () => {
                       >
                           {element.type === "barcode" ? (
                             <div 
-                              className="flex items-center justify-center w-full h-full"
+                              className="flex items-center justify-start w-full h-full"
                               style={{ color: element.color }}
                             >
                               <Barcode 

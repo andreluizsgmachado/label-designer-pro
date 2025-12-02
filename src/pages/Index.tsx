@@ -463,28 +463,31 @@ const Index = () => {
                   }}
                   onMouseDown={(e) => handleMouseDown(element.id, e)}
                 >
-                  <div
-                    className="flex items-center justify-center w-full h-full rounded"
-                    style={{
-                      fontSize: `${element.fontSize}px`,
-                      color: element.color,
-                    }}
-                  >
-                    {element.type === "barcode" ? (
-                      <div className="flex items-center justify-center w-full h-full">
-                        <Barcode 
-                          value={element.value} 
-                          width={1.5}
-                          height={element.height - 20}
-                          fontSize={10}
-                          margin={0}
-                          displayValue={true}
-                        />
-                      </div>
-                    ) : (
-                      <div className="whitespace-nowrap overflow-hidden text-ellipsis font-semibold">{element.value}</div>
-                    )}
-                  </div>
+                  {element.type === "barcode" ? (
+                    <div 
+                      className="flex items-center justify-center w-full h-full"
+                      style={{ color: element.color }}
+                    >
+                      <Barcode 
+                        value={element.value} 
+                        width={1.5}
+                        height={element.height - 20}
+                        fontSize={10}
+                        margin={0}
+                        displayValue={true}
+                      />
+                    </div>
+                  ) : (
+                    <div 
+                      className="w-full h-full flex items-center whitespace-nowrap overflow-hidden text-ellipsis font-semibold"
+                      style={{
+                        fontSize: `${element.fontSize}px`,
+                        color: element.color,
+                      }}
+                    >
+                      {element.value}
+                    </div>
+                  )}
                   
                   {selectedElement === element.id && (
                     <>
@@ -552,28 +555,31 @@ const Index = () => {
                     height: `${pxToMm(element.height)}mm`,
                   }}
                 >
-                  <div
-                    className="flex items-center justify-center w-full h-full"
-                    style={{
-                      fontSize: `${pxToMm(element.fontSize)}mm`,
-                      color: element.color,
-                    }}
-                  >
-                    {element.type === "barcode" ? (
-                      <div className="flex items-center justify-center w-full h-full">
-                        <Barcode 
-                          value={element.value} 
-                          width={1.5}
-                          height={pxToMm(element.height - 20) * 3.78}
-                          fontSize={10}
-                          margin={0}
-                          displayValue={true}
-                        />
-                      </div>
-                    ) : (
-                      <div className="whitespace-nowrap overflow-hidden text-ellipsis font-semibold">{element.value}</div>
-                    )}
-                  </div>
+                  {element.type === "barcode" ? (
+                    <div 
+                      className="flex items-center justify-center w-full h-full"
+                      style={{ color: element.color }}
+                    >
+                      <Barcode 
+                        value={element.value} 
+                        width={1.5}
+                        height={pxToMm(element.height - 20) * 3.78}
+                        fontSize={10}
+                        margin={0}
+                        displayValue={true}
+                      />
+                    </div>
+                  ) : (
+                    <div 
+                      className="w-full h-full flex items-center whitespace-nowrap overflow-hidden text-ellipsis font-semibold"
+                      style={{
+                        fontSize: `${pxToMm(element.fontSize)}mm`,
+                        color: element.color,
+                      }}
+                    >
+                      {element.value}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -624,15 +630,11 @@ const Index = () => {
                           height: `${pxToMm(element.height)}mm`,
                         }}
                       >
-                          <div
-                            className="flex items-center justify-center w-full h-full"
-                            style={{
-                              fontSize: `${pxToMm(element.fontSize)}mm`,
-                              color: element.color,
-                            }}
-                          >
                           {element.type === "barcode" ? (
-                            <div className="flex items-center justify-center w-full h-full">
+                            <div 
+                              className="flex items-center justify-center w-full h-full"
+                              style={{ color: element.color }}
+                            >
                               <Barcode 
                                 value={element.value} 
                                 width={1.5}
@@ -643,9 +645,16 @@ const Index = () => {
                               />
                             </div>
                           ) : (
-                            <div className="whitespace-nowrap overflow-hidden text-ellipsis font-semibold">{element.value}</div>
+                            <div 
+                              className="w-full h-full flex items-center whitespace-nowrap overflow-hidden text-ellipsis font-semibold"
+                              style={{
+                                fontSize: `${pxToMm(element.fontSize)}mm`,
+                                color: element.color,
+                              }}
+                            >
+                              {element.value}
+                            </div>
                           )}
-                        </div>
                       </div>
                     ))}
                   </div>

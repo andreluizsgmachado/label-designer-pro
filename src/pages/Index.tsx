@@ -435,6 +435,13 @@ const Index = () => {
                 style={{
                   width: `${labelWidth}px`,
                   height: `${labelHeight}px`,
+                  backgroundImage: `
+                    linear-gradient(to right, hsl(var(--border) / 0.3) 1px, transparent 1px),
+                    linear-gradient(to bottom, hsl(var(--border) / 0.3) 1px, transparent 1px),
+                    linear-gradient(to right, hsl(var(--border) / 0.15) 1px, transparent 1px),
+                    linear-gradient(to bottom, hsl(var(--border) / 0.15) 1px, transparent 1px)
+                  `,
+                  backgroundSize: `${mmToPx(10)}px ${mmToPx(10)}px, ${mmToPx(10)}px ${mmToPx(10)}px, ${mmToPx(5)}px ${mmToPx(5)}px, ${mmToPx(5)}px ${mmToPx(5)}px`,
                 }}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
